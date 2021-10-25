@@ -7,7 +7,6 @@ import javax.ws.rs.core.MediaType;
 
 @Path("/api")
 public class VeilleQuarkus {
-
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String hello() {
