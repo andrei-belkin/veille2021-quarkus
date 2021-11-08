@@ -1,6 +1,5 @@
 package qc.ca.claurendeau.belkinandrei.controller;
 
-import com.google.gson.Gson;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -18,7 +17,6 @@ import java.util.UUID;
 
 @Path("/api/resume")
 public class ResumeController {
-    private final Gson gson = new Gson();
     @Inject
     ResumeService resumeService;
 
@@ -27,7 +25,7 @@ public class ResumeController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public JsonObject createResume(JsonObject resumeCreationDtoJson) {
-        ResumeCreationDTO resumeCreationDTO = gson.fromJson(String.valueOf(resumeCreationDtoJson), ResumeCreationDTO.class);
+        ResumeCreationDTO resumeCreationDTO = resumeCreationDtoJson.mapTo(ResumeCreationDTO.class);
         Resume resume = resumeService.createResume(resumeCreationDTO);
         return JsonObject.mapFrom(resume);
     }
@@ -45,9 +43,7 @@ public class ResumeController {
     @Produces(MediaType.APPLICATION_JSON)
     public JsonArray getPendingResumes() {
         List<Resume> resumes = new ArrayList<>(resumeService.getResumesWithPendingApproval());
-        JsonArray resumesJson = new JsonArray(resumes);
-        System.out.println("Controller : " + resumesJson.encodePrettily());
-        return resumesJson;
+        return new JsonArray(resumes);
     }
 
     @GET
