@@ -5,10 +5,7 @@ import lombok.*;
 import lombok.Builder.Default;
 import qc.ca.claurendeau.belkinandrei.util.ReviewState;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.*;
 import java.util.UUID;
 
 @Data
@@ -16,9 +13,10 @@ import java.util.UUID;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Builder(toBuilder = true)
+@Entity
 public class Resume extends PanacheEntityBase {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "UUID")
     private UUID id;
     private String name;
     @Lob
