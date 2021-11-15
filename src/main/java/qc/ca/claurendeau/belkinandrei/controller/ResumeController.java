@@ -18,15 +18,15 @@ import java.util.UUID;
 @Path("/api/resume")
 public class ResumeController {
     @Inject
-    ResumeService resumeService;
+    ResumeService service;
 
     @POST
     @Path("/create")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public JsonObject createResume(JsonObject resumeCreationDtoJson) {
-        ResumeCreationDTO resumeCreationDTO = resumeCreationDtoJson.mapTo(ResumeCreationDTO.class);
-        Resume resume = resumeService.createResume(resumeCreationDTO);
+    public JsonObject createResume(JsonObject dtoJson) {
+        ResumeCreationDTO dto = dtoJson.mapTo(ResumeCreationDTO.class);
+        Resume resume = service.createResume(dto);
         return JsonObject.mapFrom(resume);
     }
 
@@ -34,7 +34,7 @@ public class ResumeController {
     @Path("/get/all")
     @Produces(MediaType.APPLICATION_JSON)
     public JsonArray getAllResumes() {
-        List<Resume> resumes = new ArrayList<>(resumeService.getAllResumes());
+        List<Resume> resumes = new ArrayList<>(service.getAllResumes());
         return new JsonArray(Json.encode(resumes));
     }
 
@@ -42,7 +42,7 @@ public class ResumeController {
     @Path("/get/pending")
     @Produces(MediaType.APPLICATION_JSON)
     public JsonArray getPendingResumes() {
-        List<Resume> resumes = new ArrayList<>(resumeService.getResumesWithPendingApproval());
+        List<Resume> resumes = new ArrayList<>(service.getResumesWithPendingApproval());
         return new JsonArray(resumes);
     }
 
@@ -50,7 +50,7 @@ public class ResumeController {
     @Path("/get/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject getResumeById(@PathParam("id") UUID id) {
-        Optional<Resume> resumeOpt = resumeService.getResumeById(id);
+        Optional<Resume> resumeOpt = service.getResumeById(id);
         return JsonObject.mapFrom(resumeOpt.orElse(null));
     }
 
@@ -58,7 +58,7 @@ public class ResumeController {
     @Path("/get/byOwner/{ownerId}")
     @Produces(MediaType.APPLICATION_JSON)
     public JsonArray getResumesByOwnerId(@PathParam("ownerId") UUID ownerId) {
-        List<Resume> resumes = new ArrayList<>(resumeService.getResumesByOwnerId(ownerId));
+        List<Resume> resumes = new ArrayList<>(service.getResumesByOwnerId(ownerId));
         return new JsonArray(resumes);
     }
 }

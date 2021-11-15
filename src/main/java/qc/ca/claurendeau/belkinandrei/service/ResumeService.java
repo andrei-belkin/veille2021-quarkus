@@ -2,15 +2,14 @@ package qc.ca.claurendeau.belkinandrei.service;
 
 import qc.ca.claurendeau.belkinandrei.dto.ResumeCreationDTO;
 import qc.ca.claurendeau.belkinandrei.entity.Resume;
+import qc.ca.claurendeau.belkinandrei.entity.Student;
 import qc.ca.claurendeau.belkinandrei.persistence.ResumeRepository;
 import qc.ca.claurendeau.belkinandrei.util.ReviewState;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -18,12 +17,20 @@ public class ResumeService {
     @Inject
     ResumeRepository resumeRepository;
 
+    @Inject
+    StudentService studentService;
+
     @Transactional
-    public Resume createResume(ResumeCreationDTO resumeDto) {
+    public Resume createResume(ResumeCreationDTO dto) {
+        Optional<Student> studentOpt = studentService.getStudentById(dto.getOwnerId());
+        if (studentOpt.isEmpty())
+            return null;
+        Student student = studentOpt.get();
+
         Resume resume = Resume.builder()
-                .name(resumeDto.getName())
-                .file(resumeDto.getFile())
-                .ownerId(resumeDto.getOwnerId())
+                .name(dto.getName())
+                .file(dto.getFile())
+                .owner(student)
                 .build();
         resumeRepository.persistAndFlush(resume);
         return resume;
@@ -45,7 +52,11 @@ public class ResumeService {
     }
 
     @Transactional
-    public List<Resume> getResumesByOwnerId(UUID id) {
-        return resumeRepository.find("ownerId", id).stream().collect(Collectors.toList());
+    public List<Resume> getResumesByOwnerId(UUID ownerId) {
+        Optional<Student> studentOpt = studentService.getStudentById(ownerId);
+        if (studentOpt.isEmpty())
+            return new ArrayList<>();
+        Student student = studentOpt.get();
+        return resumeRepository.find("owner", student).stream().collect(Collectors.toList());
     }
 }
