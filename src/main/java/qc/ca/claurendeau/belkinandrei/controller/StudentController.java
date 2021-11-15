@@ -7,6 +7,7 @@ import qc.ca.claurendeau.belkinandrei.dto.StudentCreationDTO;
 import qc.ca.claurendeau.belkinandrei.entity.Student;
 import qc.ca.claurendeau.belkinandrei.service.StudentService;
 
+import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -21,7 +22,7 @@ public class StudentController {
     StudentService service;
 
     @POST
-    @Path("/create")
+    @PermitAll
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public JsonObject createStudent(JsonObject dtoJson) {

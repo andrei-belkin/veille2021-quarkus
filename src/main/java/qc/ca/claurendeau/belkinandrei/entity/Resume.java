@@ -1,5 +1,6 @@
 package qc.ca.claurendeau.belkinandrei.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.*;
 import lombok.Builder.Default;
@@ -26,6 +27,7 @@ public class Resume extends PanacheEntityBase {
     private ReviewState reviewState = ReviewState.PENDING;
     private String reasonForRejection;
 
+    @JsonIgnoreProperties("resumes")
     @ManyToOne(targetEntity = Student.class, optional = false)
     private Student owner;
 }

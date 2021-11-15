@@ -21,7 +21,6 @@ public class ResumeController {
     ResumeService service;
 
     @POST
-    @Path("/create")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public JsonObject createResume(JsonObject dtoJson) {
