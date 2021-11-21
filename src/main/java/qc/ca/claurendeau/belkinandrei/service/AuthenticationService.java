@@ -19,14 +19,33 @@ public class AuthenticationService {
 
     @Transactional
     public LoginOutgoingDTO authenticate(LoginIncomingDTO dto) {
+        System.out.println("### Started auth");
+
         Optional<Student> studentOpt = studentService.getStudentByEmail(dto.getEmail());
-        if (studentOpt.isEmpty() || BcryptUtil.bcryptHash(
-                studentOpt.get().getPassword(),
-                CryptUtil.ITERATIONS,
-                dto.getPassword().getBytes(StandardCharsets.UTF_8)
-        ).equals(dto.getPassword()))
+        System.out.println("### Got Optional : " + studentOpt.toString());
+
+        if (studentOpt.isEmpty()) {
+            System.out.println("### Optional is empty, returning null");
             return null;
+        }
+
+        System.out.println("### Password is : " + dto.getPassword());
+        String cryptedPass = BcryptUtil.bcryptHash(
+                dto.getPassword(),
+                CryptUtil.ITERATIONS,
+                CryptUtil.SALT
+        );
+        System.out.println("### Encrypted password is : " + cryptedPass);
+
+        if (!cryptedPass.equals(studentOpt.get().getPassword())) {
+            System.out.println("### Passwords do not match");
+            return null;
+        }
+
+        System.out.println("### Passwords match");
         Student student = studentOpt.get();
+        System.out.println("### Student : " + student);
+
         return new LoginOutgoingDTO(
                 student.getId(),
                 student.getStudentId(),
