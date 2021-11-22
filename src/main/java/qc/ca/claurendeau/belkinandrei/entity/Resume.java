@@ -6,7 +6,6 @@ import lombok.*;
 import lombok.Builder.Default;
 import qc.ca.claurendeau.belkinandrei.util.ReviewState;
 
-import javax.enterprise.context.RequestScoped;
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -26,5 +25,8 @@ public class Resume extends PanacheEntityBase {
     @Default
     private ReviewState reviewState = ReviewState.PENDING;
     private String reasonForRejection;
-    private UUID ownerId;
+
+    @ManyToOne(targetEntity = Student.class, optional = false)
+    @JsonIgnoreProperties("resumes")
+    private Student owner;
 }

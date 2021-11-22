@@ -9,7 +9,6 @@ import qc.ca.claurendeau.belkinandrei.util.CryptUtil;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

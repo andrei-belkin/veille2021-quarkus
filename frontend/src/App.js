@@ -8,8 +8,9 @@ import { frCA } from "date-fns/locale";
 import React, { useState } from "react";
 import { pdfjs } from "react-pdf";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import ResumeUploadHardcoded from "./Components/Student/Upload/ResumeUploadHardcoded";
-import ResumeListHardcoded from "./Components/Student/ResumeListHardcoded";
+import Login from "./Components/Login";
+import RegisteringManager from "./Components/RegisteringManager";
+import PasswordChange from "./Components/PasswordChange";
 import RouteSelector from "./Components/RouteSelector";
 import ErrorModal from "./Components/Utils/Modal/ErrorModal";
 import { BasicProtectedRoute } from "./Components/Utils/Routes";
@@ -58,8 +59,9 @@ function App() {
                 <CssBaseline />
                 <Router>
                   <Switch>
-                    <Route exact path="/" component={ResumeUploadHardcoded} />
-                    <Route exact path="/listcv-hardcoded" component={ResumeListHardcoded} />
+                    <Route exact path="/" component={Login}/>
+                    <Route exact path="/register" component={RegisteringManager}/>
+                    <Route exact path="/passwordChange" component={PasswordChange}/>
                     <BasicProtectedRoute
                       exact={false}
                       path="/dashboard"

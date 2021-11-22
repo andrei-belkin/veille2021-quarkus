@@ -38,6 +38,10 @@ public class Student extends PanacheEntityBase {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("owner")
+    private List<Resume> resumes;
+
     @Roles
     private String role;
 }

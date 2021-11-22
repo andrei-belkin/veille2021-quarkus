@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Path("/api/student")
+@Path("/api/students")
 public class StudentController {
     @Inject
     StudentService service;
@@ -32,7 +32,6 @@ public class StudentController {
     }
 
     @GET
-    @Path("/get/all")
     @Produces(MediaType.APPLICATION_JSON)
     public JsonArray getAllStudents() {
         List<Student> students = new ArrayList<>(service.getAllStudents());
@@ -40,7 +39,7 @@ public class StudentController {
     }
 
     @GET
-    @Path("/get/{id}")
+    @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject getStudentById(@PathParam("id") UUID id) {
         Optional<Student> studentOpt = service.getStudentById(id);
@@ -48,7 +47,7 @@ public class StudentController {
     }
 
     @GET
-    @Path("/get/{email}")
+    @Path("/email/{email}")
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject getStudentByEmail(@PathParam("email") String email) {
         Optional<Student> studentOpt = service.getStudentByEmail(email);

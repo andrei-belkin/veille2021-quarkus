@@ -16,24 +16,21 @@ class AuthenticationService {
 
 
     async authenticate(values) {
-        this.logout()
-        return axios.get(this.baseUrl + "/auth", values).then(response => {
-            let dto = {...values}
-            console.log(dto)
-            sessionStorage.setItem("authenticatedUser", JSON.stringify(response.data))
+        this.logout();
+        console.log(values);
+        return axios({
+            method: "GET",
+            url: this.baseUrl + "/auth",
+            headers: {
+                'Accept': '*/*',
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            let user = response.data
+            console.log(user);
+            this.setupAxiosInterceptors(values.email, values.password)
+            this.saveValueToSession("authenticatedUser", JSON.stringify(user))
         })
-        // return axios({
-        //     method: "GET",
-        //     url: this.baseUrl + "/auth",
-        //     headers: {
-        //         authorization: "Basic " + btoa(values.email + ":" + values.password)
-        //     },
-        // }).then(response => {
-        //     let user = response.data
-        //     user.password = values.password
-        //     this.setupAxiosInterceptors(values.email, values.password)
-        //     this.saveValueToSession("authenticatedUser", JSON.stringify(user))
-        // })
     }
 
     async registerUser(endpoint, values, setFieldError, setModalOpen, history) {

@@ -2,6 +2,7 @@ package qc.ca.claurendeau.belkinandrei.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import qc.ca.claurendeau.belkinandrei.entity.Student;
 
 import javax.persistence.Lob;
 import java.util.UUID;
