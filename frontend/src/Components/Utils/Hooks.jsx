@@ -1,7 +1,5 @@
-import {useContext, useState} from "react";
+import { useState } from "react";
 import axios from "axios";
-import AuthenticationService from "../../Services/AuthenticationService";
-import {ModalContext, SemesterContext} from "../../App";
 
 export function useModal() {
     const [isOpen, setOpen] = useState(false);
@@ -18,25 +16,17 @@ export function useModal() {
 }
 
 export function useApi() {
-    // const {open} = useContext(ModalContext);
-    // const {semester} = useContext(SemesterContext);
-    // const user = AuthenticationService.getCurrentUser();
     const api = axios.create({
         baseURL: "http://localhost:8080/api/",
-        timeout: 15000,
-        headers: {
-            // authorization: "Basic " + btoa(user.username + ":" + user.password)
-        }
+        timeout: 15000
     });
-    api.interceptors.request.use(config => {
-        // if (semester)
-        //     config.headers = {"X-Semester": semester, ...config.headers};
 
+    api.interceptors.request.use(config => {
         return config;
     });
+    
     api.interceptors.response.use(response => response, error => {
         console.warn("Axios error: " + error);
-        // open();
     });
 
     return api;
@@ -52,6 +42,6 @@ export function useDateParser() {
 
 export function useTimeParserFromDate() {
     return (date) => {
-        return new Date(date).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})
+        return new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
 }
