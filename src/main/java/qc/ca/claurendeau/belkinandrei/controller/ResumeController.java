@@ -4,6 +4,7 @@ import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import qc.ca.claurendeau.belkinandrei.dto.ResumeCreationDTO;
+import qc.ca.claurendeau.belkinandrei.dto.ResumeDeletionResultDTO;
 import qc.ca.claurendeau.belkinandrei.entity.Resume;
 import qc.ca.claurendeau.belkinandrei.service.ResumeService;
 
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Path("/api/resume")
+@Path("/api/resumes")
 public class ResumeController {
     @Inject
     ResumeService service;
@@ -30,7 +31,6 @@ public class ResumeController {
     }
 
     @GET
-    @Path("/get/all")
     @Produces(MediaType.APPLICATION_JSON)
     public JsonArray getAllResumes() {
         List<Resume> resumes = new ArrayList<>(service.getAllResumes());
@@ -38,7 +38,7 @@ public class ResumeController {
     }
 
     @GET
-    @Path("/get/pending")
+    @Path("/pending")
     @Produces(MediaType.APPLICATION_JSON)
     public JsonArray getPendingResumes() {
         List<Resume> resumes = new ArrayList<>(service.getResumesWithPendingApproval());
@@ -46,7 +46,7 @@ public class ResumeController {
     }
 
     @GET
-    @Path("/get/{id}")
+    @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject getResumeById(@PathParam("id") UUID id) {
         Optional<Resume> resumeOpt = service.getResumeById(id);
@@ -54,10 +54,18 @@ public class ResumeController {
     }
 
     @GET
-    @Path("/get/byOwner/{ownerId}")
+    @Path("/owner/{ownerId}")
     @Produces(MediaType.APPLICATION_JSON)
     public JsonArray getResumesByOwnerId(@PathParam("ownerId") UUID ownerId) {
         List<Resume> resumes = new ArrayList<>(service.getResumesByOwnerId(ownerId));
         return new JsonArray(resumes);
+    }
+
+    @DELETE
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public JsonObject deleteResumeById(@PathParam("id") UUID id) {
+        ResumeDeletionResultDTO deletionResult = service.deleteResumeById(id);
+        return JsonObject.mapFrom(deletionResult);
     }
 }

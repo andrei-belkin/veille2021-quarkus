@@ -1,6 +1,7 @@
 package qc.ca.claurendeau.belkinandrei.service;
 
 import qc.ca.claurendeau.belkinandrei.dto.ResumeCreationDTO;
+import qc.ca.claurendeau.belkinandrei.dto.ResumeDeletionResultDTO;
 import qc.ca.claurendeau.belkinandrei.entity.Resume;
 import qc.ca.claurendeau.belkinandrei.entity.Student;
 import qc.ca.claurendeau.belkinandrei.persistence.ResumeRepository;
@@ -53,5 +54,10 @@ public class ResumeService {
             return new ArrayList<>();
         Student student = studentOpt.get();
         return resumeRepository.find("owner", student).stream().collect(Collectors.toList());
+    }
+
+    @Transactional
+    public ResumeDeletionResultDTO deleteResumeById(UUID id) {
+        return new ResumeDeletionResultDTO(resumeRepository.deleteById(id));
     }
 }
