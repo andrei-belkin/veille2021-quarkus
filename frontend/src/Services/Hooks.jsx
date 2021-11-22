@@ -5,7 +5,6 @@ import {IdentitySerializer, JsonSerializer} from "rsocket-core/build";
 import Flowable from "rsocket-flowable/build/Flowable";
 import RSocketWebSocketClient from "rsocket-websocket-client";
 import {ModalContext, SemesterContext} from "../App";
-import AuthenticationService from "./AuthenticationService";
 
 export function useModal() {
     const [isOpen, setOpen] = useState(false)
@@ -24,13 +23,9 @@ export function useModal() {
 export function useApi() {
     const {open} = useContext(ModalContext)
     const {semester} = useContext(SemesterContext)
-    const user = AuthenticationService.getCurrentUser()
     const api = axios.create({
         baseURL: "http://localhost:8080/api/",
-        timeout: 150000,
-        headers: {
-            authorization: "Basic " + btoa(user.email + ":" + user.password)
-        }
+        timeout: 150000
     })
     api.interceptors.request.use(config => {
         if (semester)
