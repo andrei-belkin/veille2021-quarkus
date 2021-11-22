@@ -22,15 +22,10 @@ public class ResumeService {
 
     @Transactional
     public Resume createResume(ResumeCreationDTO dto) {
-        Optional<Student> studentOpt = studentService.getStudentById(dto.getOwnerId());
-        if (studentOpt.isEmpty())
-            return null;
-        Student student = studentOpt.get();
-
         Resume resume = Resume.builder()
                 .name(dto.getName())
                 .file(dto.getFile())
-                .owner(student)
+                .ownerId(dto.getOwnerId())
                 .build();
         resumeRepository.persistAndFlush(resume);
         return resume;

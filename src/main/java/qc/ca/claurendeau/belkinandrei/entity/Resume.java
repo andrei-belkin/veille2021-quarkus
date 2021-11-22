@@ -26,8 +26,5 @@ public class Resume extends PanacheEntityBase {
     @Default
     private ReviewState reviewState = ReviewState.PENDING;
     private String reasonForRejection;
-
-    @JsonIgnoreProperties("resumes")
-    @ManyToOne(targetEntity = Student.class, optional = false)
-    private Student owner;
+    private UUID ownerId;
 }
