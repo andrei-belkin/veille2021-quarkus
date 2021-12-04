@@ -32,7 +32,7 @@ public class StudentService {
                 .studentId(dto.getStudentId())
                 .phoneNumber(dto.getPhoneNumber())
                 .email(dto.getEmail())
-                .resumes(new ArrayList<>())
+//                .resumes(new ArrayList<>())
                 .password(BcryptUtil.bcryptHash(dto.getPassword(), CryptUtil.ITERATIONS, CryptUtil.SALT))
                 .build();
         studentRepository.persistAndFlush(student);
