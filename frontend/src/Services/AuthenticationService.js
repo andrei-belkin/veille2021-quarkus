@@ -19,12 +19,9 @@ class AuthenticationService {
         this.logout();
         console.log(values);
         return axios({
-            method: "GET",
+            method: "POST",
             url: this.baseUrl + "/auth",
-            headers: {
-                'Accept': '*/*',
-                'Content-Type': 'application/json'
-            }
+            data: values
         }).then(response => {
             let user = response.data
             console.log(user);
