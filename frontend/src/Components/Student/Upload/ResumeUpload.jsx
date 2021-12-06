@@ -11,6 +11,7 @@ import * as yup from "yup";
 import useStyles from "../../Utils/useStyles";
 import {useApi} from "../../Utils/Hooks";
 import {useHistory} from "react-router-dom";
+import AuthenticationService from "../../../Services/AuthenticationService";
 
 
 export default function ResumeUpload() {
@@ -43,6 +44,7 @@ export default function ResumeUpload() {
                     <Formik
                         onSubmit={async (values) => readFileAsync(values.file).then((file) => {
                             let dto = {...values};
+                            dto.ownerId = AuthenticationService.getCurrentUser().id;
                             dto.file = file;
                             return api.post("/resumes", dto)
                                 .then(() => history.push("/dashboard/listcv"))

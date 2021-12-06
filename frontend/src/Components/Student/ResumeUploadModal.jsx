@@ -12,6 +12,7 @@ import React from "react";
 import {useHistory} from "react-router-dom";
 import * as yup from "yup";
 import {useApi} from "../../Services/Hooks";
+import AuthenticationService from "../../Services/AuthenticationService";
 
 export default function ResumeUploadModal({isOpen, hide, title}) {
     const api = useApi()
@@ -36,6 +37,7 @@ export default function ResumeUploadModal({isOpen, hide, title}) {
                     onSubmit={async values => readFileAsync(values.file)
                         .then(file => {
                             let dto = {...values}
+                            dto.ownerId = AuthenticationService.getCurrentUser().id;
                             dto.file = file
                             return api.post("/resumes", dto)
                                 .then(() => history.push("/"))
