@@ -15,7 +15,7 @@ export default function ResumeList({count, deniedCount}) {
     const [buttonDeleting, setButtonDeleting] = useState(-1)
 
     useEffect(() => {
-        api.get("/resumes/student/" + AuthenticationService.getCurrentUser().id)
+        api.get("/resumes/owner/" + AuthenticationService.getCurrentUser().id)
             .then(r => setResumes(r ? r.data : []))
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
