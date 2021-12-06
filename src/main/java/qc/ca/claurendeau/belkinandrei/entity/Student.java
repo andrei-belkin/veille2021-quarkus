@@ -3,10 +3,6 @@ package qc.ca.claurendeau.belkinandrei.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import io.quarkus.security.jpa.Password;
-import io.quarkus.security.jpa.Roles;
-import io.quarkus.security.jpa.UserDefinition;
-import io.quarkus.security.jpa.Username;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,7 +14,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Builder(toBuilder = true)
-@UserDefinition
 @Entity
 public class Student extends PanacheEntityBase {
     @Id
@@ -30,11 +25,9 @@ public class Student extends PanacheEntityBase {
     private String studentId;
     private String phoneNumber;
 
-    @Username
     @Column(unique = true)
     private String email;
 
-    @Password
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
@@ -42,6 +35,5 @@ public class Student extends PanacheEntityBase {
     @JsonIgnoreProperties("owner")
     private List<Resume> resumes;
 
-    @Roles
-    private String role;
+    private final String role = "student";
 }
